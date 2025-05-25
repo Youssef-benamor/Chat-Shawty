@@ -9,7 +9,6 @@ import {
 } from "../controllers/userController.js";
 
 import upload from "../middleware/uploadMiddleware.js";
-import protect from "../middleware/authMiddleware.js"; // <-- import protect
 
 const router = express.Router();
 
@@ -19,7 +18,7 @@ router.post("/logout", logoutUser);
 router.get("/find/:userId", findUser);
 router.get("/", getUsers);
 
-// Protect this route by adding the middleware before updateProfile
-router.put("/profile", protect, upload.single("profilePicture"), updateProfile);
+// Protect this route so req.user is defined
+router.put("/profile", upload.single("profilePicture"), updateProfile);
 
 export default router;
