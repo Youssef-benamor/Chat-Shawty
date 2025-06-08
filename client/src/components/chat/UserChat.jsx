@@ -24,8 +24,8 @@ const UserChat = ({ chat, user }) => {
   const truncateText = (text) =>
     text.length > 20 ? text.substring(0, 20) + "..." : text;
 
-  const profileImage = recipientUser?.profilePic || avatar;
-
+  const profileImage = recipientUser?.profilePicture || avatar;
+  console.log(recipientUser);
   return (
     <div
       onClick={() => {

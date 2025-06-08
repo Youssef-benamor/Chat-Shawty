@@ -139,7 +139,7 @@ export const AuthContextProvider = ({ children }) => {
         formData.append("name", profileInfo.name);
         formData.append("password", profileInfo.password || "");
         formData.append("confirmPassword", profileInfo.confirmPassword || "");
-
+        formData.append("user", JSON.stringify(user));
         if (profileInfo.profilePicture) {
           formData.append("profilePicture", profileInfo.profilePicture);
         }

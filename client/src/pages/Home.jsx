@@ -14,7 +14,7 @@ const Home = () => {
       {showIntro ? (
         <div className="animate-fade-in-out text-center">
           <h1 className="mb-4 text-5xl font-extrabold">Welcome</h1>
-          <p className="text-lg tracking-wide text-purple-300">to DreamZone</p>
+          <p className="text-lg tracking-wide text-purple-300">to ChatShawrty</p>
         </div>
       ) : (
         <div className="w-full max-w-md rounded-xl bg-white/10 p-10 text-center shadow-lg backdrop-blur-md">

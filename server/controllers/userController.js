@@ -73,7 +73,18 @@ const findUser = asyncHandler(async (req, res) => {
   const user = await User.findById(userId);
 
   if (user) {
-    res.status(200).json(user);
+    const profilePictureUrl = user.profilePicture
+      ? `${req.protocol}://${req.get("host")}/uploads/profile_pictures/${
+          user.profilePicture
+        }`
+      : null;
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profilePicture: profilePictureUrl,
+    });
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -88,7 +99,9 @@ const getUsers = asyncHandler(async (req, res) => {
 
 // Update user profile
 const updateProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const { _id } = JSON.parse(req.body.user);
+  console.log(_id);
+  const user = await User.findById(_id);
 
   if (!user) {
     res.status(404);
@@ -104,13 +117,16 @@ const updateProfile = asyncHandler(async (req, res) => {
     }
     user.password = req.body.password;
   }
-
+  if (req.file) {
+    user.profilePicture = req.file.filename; // or store full path: `uploads/profile_pictures/${req.file.filename}`
+  }
   const updatedUser = await user.save();
 
   res.json({
     _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
+    profilePicture: updatedUser.profilePicture || null,
   });
 });
 
