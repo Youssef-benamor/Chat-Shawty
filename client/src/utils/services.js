@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseUrl = "/api";
+export const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const postRequest = async (url, body) => {
   try {

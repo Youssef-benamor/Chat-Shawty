@@ -11,15 +11,11 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
 // CORS allowed origins based on environment
-const corsOrigin =
-  process.env.NODE_ENV === "production"
-    ? "https://mern-auth-chat.onrender.com"
-    : "http://localhost:5173";
 
 // Create Socket.IO server attached to HTTP server
 const io = new Server(server, {
   cors: {
-    origin: corsOrigin,
+    origin: process.env.frontendURL,
     methods: ["GET", "POST"],
   },
 });

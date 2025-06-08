@@ -27,7 +27,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Change this in production
+    origin: process.env.frontendURL, // Change this in production
     credentials: true,
   })
 );
@@ -70,7 +70,7 @@ const startServer = async () => {
     // Initialize Socket.IO
     const io = new Server(server, {
       cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.frontendURL,
         credentials: true,
       },
     });
