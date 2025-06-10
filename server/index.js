@@ -27,7 +27,9 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.use(
   cors({
-    origin: process.env.frontendURL, // Change this in production
+    origin: process.env.frontendURL || "https://chat-shawty.vercel.app",
+
+    // Change this in production
     credentials: true,
   })
 );

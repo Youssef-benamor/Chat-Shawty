@@ -98,7 +98,7 @@ const Register = () => {
             name="confirmPassword"
             type="password"
             required
-            className="w-full rounded-md bg-white bg-opacity-30 p-3 text-white placeholder-purple-200 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full rounded-md bg-white  bg-opacity-30 p-3 text-white placeholder-purple-200 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Confirm your password"
             onChange={(e) =>
               updateRegisterInfo({
