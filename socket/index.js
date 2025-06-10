@@ -10,13 +10,13 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
 
-// CORS allowed origins based on environment
 
 // Create Socket.IO server attached to HTTP server
 const io = new Server(server, {
   cors: {
-    origin: process.env.frontendURL,
+    origin: ["https://chat-shawty.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 

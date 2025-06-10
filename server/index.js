@@ -25,11 +25,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
+// ✅ Explicitly allow both localhost and production frontend
+const allowedOrigins = [
+  "https://chat-shawty.vercel.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: process.env.frontendURL || "https://chat-shawty.vercel.app",
-
-    // Change this in production
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -66,18 +70,17 @@ const startServer = async () => {
     await connectDB();
     console.log("✅ MongoDB connected");
 
-    // Create HTTP server
     const server = http.createServer(app);
 
-    // Initialize Socket.IO
+    // ✅ Fix for Socket.IO CORS
     const io = new Server(server, {
       cors: {
-        origin: process.env.frontendURL,
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
         credentials: true,
       },
     });
 
-    // Online users map
     const onlineUsers = new Map();
 
     io.on("connection", (socket) => {
@@ -85,7 +88,6 @@ const startServer = async () => {
         console.log("🔌 New socket connection:", socket.id);
       }
 
-      // Handle user login
       socket.on("addNewUser", (userId) => {
         onlineUsers.set(userId, socket.id);
         if (process.env.NODE_ENV !== "production") {
@@ -93,7 +95,6 @@ const startServer = async () => {
         }
       });
 
-      // Handle sending message
       socket.on("sendMessage", (data) => {
         const recipientSocketId = onlineUsers.get(data.recipientId);
         if (recipientSocketId) {
@@ -105,7 +106,6 @@ const startServer = async () => {
         }
       });
 
-      // Handle user disconnect
       socket.on("disconnect", () => {
         for (let [userId, socketId] of onlineUsers.entries()) {
           if (socketId === socket.id) {
@@ -119,7 +119,6 @@ const startServer = async () => {
       });
     });
 
-    // Start listening
     server.listen(port, () => {
       console.log(`🚀 Server running on port ${port} with Socket.IO`);
     });
